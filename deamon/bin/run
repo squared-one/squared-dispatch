@@ -1,0 +1,11 @@
+#!/bin/bash
+
+inotifywait -m /target -e moved_to |
+  while read path action file; do
+    echo "$file appeared in $path via $action"
+
+    if [[ $file =~ ^fedex_.*\.zplii$ ]];
+    then
+      lp -d Zebra_Technologies_ZTC_ZP_505 ./target/$file
+    fi
+  done
