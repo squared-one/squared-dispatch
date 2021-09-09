@@ -6,6 +6,8 @@ inotifywait -m /target -e moved_to |
 
     if [[ $file =~ ^fedex_.*\.zplii$ ]];
     then
-      lp -d Zebra_Technologies_ZTC_ZP_505 ./target/$file
+      lp -d Zebra_Technologies_ZTC_ZP_505 /target/$file
+      sleep 1
+      rm /target/$file
     fi
   done
