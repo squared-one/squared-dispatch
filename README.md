@@ -2,22 +2,20 @@
 
 ## System dependencies
 
-Install docker  
-https://docs.docker.com/engine/install/
+Install docker & docker compose  
+https://docs.docker.com/engine/install/  
+https://docs.docker.com/compose/install/
 
-## Build
-```
-docker build -t squared-dispatch-deamon deamon/.
-```
 ## Run deamon
 ```
-docker run -d \
-  --mount type=bind,source={absolute-path-for-your-downloads-folder},target=/target \
-  --network host \
-  squared-dispatch-deamoA
+docker-compose build
+docker-compose up -d
+```
+## Check status
+```
+docker-compose ps
 ```
 ## Stop deamon
 ```
-docker ps
-docker rm -f {container-id}
+docker-compose stop
 ```

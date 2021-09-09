@@ -14,9 +14,13 @@ RUN apt-get update && \
 RUN mkdir target
 COPY bin/run bin/run
 
+ARG FEDEX_PRINTER_IP
+ENV FEDEX_PRINTER_IP=$FEDEX_PRINTER_IP
+
 CMD service cups start && \
   lpadmin -p Zebra_Technologies_ZTC_ZP_505 \
-    -v socket://192.168.1.5 \
+    -v socket://$FEDEX_PRINTER_IP \
     -E \
     -o Resolution=203dpi && \
+  echo $FEDEX_PRINTER_IP && \
   bin/run
