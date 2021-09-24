@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:20.04
+FROM openjdk:11
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Prague
@@ -13,6 +13,10 @@ RUN apt-get update && \
 
 RUN mkdir target
 COPY bin/run bin/run
+
+COPY lib/ZPLConveter.java ZPLConveter.java
+RUN javac ZPLConveter.java
+RUN rm ZPLConveter.java
 
 ARG FEDEX_PRINTER_IP
 ENV FEDEX_PRINTER_IP=$FEDEX_PRINTER_IP

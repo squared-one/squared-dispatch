@@ -13,19 +13,27 @@ lpadmin -p FedexPrinter \
   -o Resolution=203dpi
 
 inotifywait -m /target -e moved_to |
-  while read path action file; do
-    echo "$file appeared in $path via $action"
+  while read dir action file; do
+    echo "$file appeared in $dir via $action"
 
-    if [[ $file =~ .+_default\.zplii$ ]]; then
+    path="$dir$file"
+
+    # convert PNG file to ZPL
+    if [[ $path =~ .+_default\.png?$ ]]; then
+      path=$(java ZPLConveter "$path")
+    fi
+
+    # print ZPL file to designated printer
+    if [[ $path =~ .+_default\.zpl(ii)?$ ]]; then
       printer=DefaultPrinter
-    elif [[ $file =~ .+_fedex\.zplii$ ]]; then
+    elif [[ $path =~ .+_fedex\.zpl(ii)?$ ]]; then
       printer=FedexPrinter
     fi
 
     if [[ -v printer ]]; then
       lp -d $printer /target/$file
       sleep 1
-      rm /target/$file
+      rm "$path"
 
       unset printer
     fi
