@@ -2,7 +2,12 @@
 
 service cups start
 
-lpadmin -p Zebra_Technologies_ZTC_ZP_505 \
+lpadmin -p DefaultPrinter \
+  -v socket://$DEFAULT_PRINTER_IP \
+  -E \
+  -o Resolution=203dpi
+
+lpadmin -p FedexPrinter \
   -v socket://$FEDEX_PRINTER_IP \
   -E \
   -o Resolution=203dpi
@@ -11,10 +16,17 @@ inotifywait -m /target -e moved_to |
   while read path action file; do
     echo "$file appeared in $path via $action"
 
-    if [[ $file =~ .+_fedex\.zplii$ ]];
-    then
-      lp -d Zebra_Technologies_ZTC_ZP_505 /target/$file
+    if [[ $file =~ .+_default\.zplii$ ]]; then
+      printer=DefaultPrinter
+    elif [[ $file =~ .+_fedex\.zplii$ ]]; then
+      printer=FedexPrinter
+    fi
+
+    if [[ -v printer ]]; then
+      lp -d $printer /target/$file
       sleep 1
       rm /target/$file
+
+      unset printer
     fi
   done
