@@ -9,7 +9,7 @@ Type=simple
 User=user
 Group=user
 
-ExecStart=/usr/bin/docker-compose --file /path/to/project/docker-compose.yml up -d --build
+ExecStart=/usr/bin/docker-compose --file /path/to/project/docker-compose.yml up --build
 ExecStop=/usr/bin/docker-compose --file /path/to/project/docker-compose.yml stop
 
 Restart=always
