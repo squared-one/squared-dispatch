@@ -6,9 +6,10 @@ services:
       context: ./deamon
       network: host
       args:
-        DEFAULT_PRINTER_IP: 192.168.1.6
-        FEDEX_PRINTER_IP: 192.168.1.5
+        DEFAULT_PRINTER_IP: 192.168.1.202
+        FEDEX_PRINTER_IP: 192.168.1.201
+    restart: unless-stopped
     volumes:
       - type: bind
-        source: $HOME/Downloads
+        source: C:\Users\{USERNAME}\Downloads
         target: /target

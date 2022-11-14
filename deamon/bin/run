@@ -12,7 +12,7 @@ lpadmin -p FedexPrinter \
   -E \
   -o Resolution=203dpi
 
-inotifywait -m /target -e moved_to |
+inotifywait -m /target -e create --exclude "\.(tmp|crdownload)" |
   while read dir action file; do
     echo "$file appeared in $dir via $action"
 
