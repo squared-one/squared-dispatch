@@ -27,16 +27,20 @@ inotifywait -m /home/squaredlab2/Stažené -e moved_to |
     # print ZPL file to designated printer
     if [[ $path =~ .+_default\.zpl(ii)?$ ]]; then
       printer=DefaultPrinter
-      lp -d Honeywell -o media=Custom.10x15cm /home/squaredlab2/Stažené/$file
+      lp -d Honeywell_2 -o media=Custom.10x15cm -o raw /home/squaredlab2/Stažené/$file
     elif [[ $path =~ .+_fedex\.zpl(ii)?$ ]]; then
       printer=FedexPrinter
-      lp -d $printer /target/$file
+      lp -d $printer /home/squaredlab2/Stažené/$file
+    elif [[ $path =~ .+_pdf\.pdf?$ ]]; then
+      printer=DefaultPrinter
+      lp -d Honeywell_2 -o media=Custom.10x15cm /home/squaredlab2/Stažené/$file
     fi
 
     if [[ -v printer ]]; then
       
       sleep 1
       rm "$path"
+      echo "removed file"
 
       unset printer
     fi

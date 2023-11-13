@@ -1,0 +1,18 @@
+[Unit]
+Description= Squared Dispatch Printer Daemon
+After=multi-user.target
+
+
+[Service]
+Type=simple
+
+User=squaredlab2
+
+ExecStart=/bin/bash /home/squaredlab2/squared-dispatch/run.sh
+
+Restart=always
+
+SyslogIdentifier=squared_dispatch
+
+[Install]
+WantedBy=default.target
